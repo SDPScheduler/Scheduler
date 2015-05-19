@@ -18,24 +18,25 @@ public class DBAdapter {
     public static final String END_TIME = "endTime";
     public static final String NOTES = "notes";
 
-    public static final String DATABASE_NAME = "EventsDB";
+    public static final String DATABASE_NAME = "EventsDB.db";
     public static final String DATABASE_TABLE = "events";
 
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 6;
 
     public static final String DATABASE_CREATE = "create table if not exists " + DATABASE_TABLE + " (" +
-            ID + " integer primary key auto-increment, " + EVENT_NAME + " VARCHAR not null, " + DATE +
+            ID + " integer primary key autoincrement, " + EVENT_NAME + " VARCHAR not null, " + DATE +
             " VARCHAR not null, " + START_TIME + " integer not null, " + END_TIME + " integer not null, " +
             NOTES + " VARCHAR " + ");";
 
 
     private final Context context;
     private DatabaseHelper DBHelper;
-    private static SQLiteDatabase db;
+    private SQLiteDatabase db;
 
     public DBAdapter(Context ctx) {
         this.context = ctx;
         DBHelper = new DatabaseHelper(context);
+        DBHelper.getWritableDatabase();
     }
 
     private static class DatabaseHelper extends SQLiteOpenHelper {

@@ -37,8 +37,8 @@
         android:layout_height="wrap_content" />
 
 
-    <TimePicker
-        android:layout_width="wrap_content"
+    <EditText
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/start_timePicker" />
 
@@ -48,8 +48,8 @@
         android:layout_height="wrap_content" />
 
 
-    <TimePicker
-        android:layout_width="wrap_content"
+    <EditText
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/end_timePicker" />
 
@@ -58,16 +58,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <TextView
+    <EditText
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:text=""
         android:id="@+id/notes" />
 
 
     <Button
         android:text="@string/create"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:id="@+id/create_button"
+        android:onClick="createNewEvent"/>
 
 </LinearLayout>
