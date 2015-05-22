@@ -1,17 +1,38 @@
 package nz.ac.aut.sdp.scheduler;
 
+import android.database.Cursor;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 
 public class DayView extends ActionBarActivity {
+
+    List<Event> events;
+    DBAdapter db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_day_view);
+
+
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = new Date();
+        TextView currentDay = (TextView) findViewById(R.id.currentDay);
+        currentDay.setText(dateFormat.format(date));
+
+        db = new DBAdapter(this);
+        events = getEventsForDay();
     }
 
     @Override
@@ -35,4 +56,31 @@ public class DayView extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    public ArrayList<Event> getEventsForDay(){
+        db.open();
+
+        ArrayList<Event> events = new ArrayList<Event>();
+
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = new Date();
+        Cursor cursor = db.getRecordsForDate(dateFormat.format(date));
+
+        cursor.moveToFirst();
+
+        do {
+            Event event = new Event(cursor.getInt(0), cursor.getString(1), cursor.getString(2),
+                    cursor.getInt(3), cursor.getInt(4), cursor.getString(5));
+
+            events.add(event);
+
+            Toast.makeText(this, event.getName(), Toast.LENGTH_LONG ).show();
+        } while (cursor.moveToNext());
+
+
+
+        return events;
+    }
+
 }
+

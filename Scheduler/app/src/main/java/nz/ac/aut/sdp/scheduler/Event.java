@@ -6,11 +6,13 @@ package nz.ac.aut.sdp.scheduler;
 public class Event {
 
     private String name, date, notes;
-    private int startTime, endTime;
+
+    private int id,startTime, endTime;
 
     public Event(){}
 
-    public Event(String name, String date, int startTime, int endTime, String notes){
+    public Event(int id, String name, String date, int startTime, int endTime, String notes){
+        this.id = id;
         this.name = name;
         this.date = date;
         this.startTime = startTime;
@@ -18,6 +20,13 @@ public class Event {
         this.notes = notes;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

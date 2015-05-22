@@ -94,16 +94,16 @@ public class DBAdapter {
 
     public Cursor getRecord(long rowId) throws SQLException {
 
-        Cursor mCursor = db.query(true, DATABASE_TABLE, new String[]{ID, EVENT_NAME, DATE, START_TIME, END_TIME, NOTES },
+        Cursor cursor = db.query(true, DATABASE_TABLE, new String[]{ID, EVENT_NAME, DATE, START_TIME, END_TIME, NOTES },
                                                                 ID + "=" + rowId, null, null, null, null, null, null);
 
-        if (mCursor != null) {
+        if (cursor != null) {
 
-            mCursor.moveToFirst();
+            cursor.moveToFirst();
 
         }
 
-        return mCursor;
+        return cursor;
     }
 
 
@@ -115,6 +115,14 @@ public class DBAdapter {
         args.put(END_TIME, endTime);
         args.put(NOTES, notes);
         return db.update(DATABASE_TABLE, args, ID + "=" + rowId, null) > 0;
+    }
+
+    public Cursor getRecordsForDate(String date){
+
+        Cursor cursor = db.query(true, DATABASE_TABLE, new String[]{ID, EVENT_NAME, DATE, START_TIME, END_TIME, NOTES },
+                null, null, DATE + "=" + date, null, null, null, null);
+
+        return cursor;
     }
 
 }
