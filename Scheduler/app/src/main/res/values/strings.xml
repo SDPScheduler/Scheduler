@@ -11,4 +11,7 @@
     <string name="notes">Notes</string>
     <string name="create">Create</string>
     <string name="new_event">New Event</string>
+    <string name="title_activity_day_view">DayView</string>
+    <string name="title_activity_week_view">WeekView</string>
+    <string name="title_activity_month_view">MonthView</string>
 </resources>
