@@ -28,7 +28,7 @@ public class DayView extends ActionBarActivity {
 
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date();
-        TextView currentDay = (TextView) findViewById(R.id.currentDay);
+        TextView currentDay = (TextView) findViewById(R.id.current_date);
         currentDay.setText(dateFormat.format(date));
 
         db = new DBAdapter(this);
@@ -60,7 +60,7 @@ public class DayView extends ActionBarActivity {
     public ArrayList<Event> getEventsForDay(){
         db.open();
 
-        ArrayList<Event> events = new ArrayList<Event>();
+        ArrayList<Event> events = new ArrayList<>();
 
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date();
