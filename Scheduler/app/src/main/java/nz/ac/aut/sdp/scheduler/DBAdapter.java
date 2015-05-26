@@ -6,6 +6,12 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by jack on 15/05/15.
@@ -21,11 +27,11 @@ public class DBAdapter {
     public static final String DATABASE_NAME = "EventsDB.db";
     public static final String DATABASE_TABLE = "events";
 
-    public static final int DATABASE_VERSION = 6;
+    public static final int DATABASE_VERSION = 7;
 
     public static final String DATABASE_CREATE = "create table if not exists " + DATABASE_TABLE + " (" +
             ID + " integer primary key autoincrement, " + EVENT_NAME + " VARCHAR not null, " + DATE +
-            " VARCHAR not null, " + START_TIME + " integer not null, " + END_TIME + " integer not null, " +
+            " DATE not null, " + START_TIME + " integer not null, " + END_TIME + " integer not null, " +
             NOTES + " VARCHAR " + ");";
 
 
@@ -71,6 +77,8 @@ public class DBAdapter {
     }
 
     public long insertRecord(String name, String date, int startTime, int endTime, String notes) {
+
+
         ContentValues initialValues = new ContentValues();
         initialValues.put(EVENT_NAME, name);
         initialValues.put(DATE, date);
@@ -108,6 +116,7 @@ public class DBAdapter {
 
 
     public boolean updateRecord(long rowId, String eventName, String date, int startTime, int endTime, String notes) {
+
         ContentValues args = new ContentValues();
         args.put(EVENT_NAME, eventName);
         args.put(DATE, date);

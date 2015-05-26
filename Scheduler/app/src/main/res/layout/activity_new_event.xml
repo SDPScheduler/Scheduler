@@ -29,7 +29,8 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/date_picker" />
+        android:id="@+id/date_picker"
+        android:focusable="false"/>
 
     <TextView
         android:text="@string/start_time"
@@ -40,7 +41,8 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/start_timePicker" />
+        android:id="@+id/start_timePicker"
+        android:focusable="false"/>
 
     <TextView
         android:text="@string/end_time"
@@ -51,7 +53,8 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/end_timePicker" />
+        android:id="@+id/end_timePicker"
+        android:focusable="false"/>
 
     <TextView
         android:text="@string/notes"
