@@ -31,7 +31,7 @@ public class DBAdapter {
 
     public static final String DATABASE_CREATE = "create table if not exists " + DATABASE_TABLE + " (" +
             ID + " integer primary key autoincrement, " + EVENT_NAME + " VARCHAR not null, " + DATE +
-            " DATE not null, " + START_TIME + " integer not null, " + END_TIME + " integer not null, " +
+            " DATE not null, " + START_TIME + " VARCHAR not null, " + END_TIME + " VARCHAR not null, " +
             NOTES + " VARCHAR " + ");";
 
 
@@ -76,7 +76,7 @@ public class DBAdapter {
         DBHelper.close();
     }
 
-    public long insertRecord(String name, String date, int startTime, int endTime, String notes) {
+    public long insertRecord(String name, String date, String startTime, String endTime, String notes) {
 
 
         ContentValues initialValues = new ContentValues();
@@ -115,7 +115,7 @@ public class DBAdapter {
     }
 
 
-    public boolean updateRecord(long rowId, String eventName, String date, int startTime, int endTime, String notes) {
+    public boolean updateRecord(long rowId, String eventName, String date, String startTime, String endTime, String notes) {
 
         ContentValues args = new ContentValues();
         args.put(EVENT_NAME, eventName);
@@ -126,13 +126,10 @@ public class DBAdapter {
         return db.update(DATABASE_TABLE, args, ID + "=" + rowId, null) > 0;
     }
 
-    public Cursor getRecordsForDate(String date){
-
-        Cursor cursor = db.query(true, DATABASE_TABLE, new String[]{ID, EVENT_NAME, DATE, START_TIME, END_TIME, NOTES },
-                null, null, DATE + "=" + date, null, null, null, null);
-
-        return cursor;
+    public Cursor getRecordsForDate(String date) throws SQLException {
+        return db.rawQuery("SELECT * FROM events WHERE date = '" + date + "';", null);
     }
+
 
 }
 
