@@ -51,14 +51,18 @@ public class NewEvent extends ActionBarActivity {
 
             @Override
             public void onClick(View v) {
-                Calendar currentTime = Calendar.getInstance();
-                int hour = currentTime.get(Calendar.HOUR_OF_DAY);
-                int minute = currentTime.get(Calendar.MINUTE);
+                final Calendar currentTime = Calendar.getInstance();
+                final int hour = Calendar.HOUR_OF_DAY;
+                final int minute = Calendar.MINUTE;
+                String format = "HH:mm";
+                final SimpleDateFormat sdf = new SimpleDateFormat(format);
                 TimePickerDialog timePicker;
                 timePicker = new TimePickerDialog(NewEvent.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                        startTimePicker.setText( selectedHour + selectedMinute);
+                        currentTime.set(hour, selectedHour);
+                        currentTime.set(minute, selectedMinute);
+                        startTimePicker.setText(sdf.format(currentTime.getTime()));
                     }
                 }, hour, minute, true);//Yes, 24 hour time
                 timePicker.setTitle("Select Time");
@@ -71,14 +75,18 @@ public class NewEvent extends ActionBarActivity {
 
             @Override
             public void onClick(View v) {
-                Calendar currentTime = Calendar.getInstance();
-                int hour = currentTime.get(Calendar.HOUR_OF_DAY);
-                int minute = currentTime.get(Calendar.MINUTE);
+                final Calendar currentTime = Calendar.getInstance();
+                final int hour = Calendar.HOUR_OF_DAY;
+                final int minute = Calendar.MINUTE;
+                String format = "HH:mm";
+                final SimpleDateFormat sdf = new SimpleDateFormat(format);
                 TimePickerDialog timePicker;
                 timePicker = new TimePickerDialog(NewEvent.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                        endTimePicker.setText(selectedHour + selectedMinute);
+                        currentTime.set(hour, selectedHour);
+                        currentTime.set(minute, selectedMinute);
+                        endTimePicker.setText(sdf.format(currentTime.getTime()));
                     }
                 }, hour, minute, true);//Yes, 24 hour time
                 timePicker.setTitle("Select Time");
@@ -128,8 +136,10 @@ public class NewEvent extends ActionBarActivity {
             //Get the values of the text fields
             String nameString = name.getText().toString();
             String dateString = date.getText().toString();
-            int startTimeInt = Integer.parseInt(startTime.getText().toString());
-            int endTimeInt = Integer.parseInt(endTime.getText().toString());
+//            int startTimeInt = Integer.parseInt(startTime.getText().toString());
+//            int endTimeInt = Integer.parseInt(endTime.getText().toString());
+            String startTimeInt = startTime.getText().toString();
+            String endTimeInt = endTime.getText().toString();
             String notesString = notes.getText().toString();
 
             db.open();
