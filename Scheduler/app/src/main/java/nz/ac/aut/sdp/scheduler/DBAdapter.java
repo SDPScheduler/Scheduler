@@ -17,7 +17,7 @@ import java.util.Date;
  * Created by jack on 15/05/15.
  */
 public class DBAdapter {
-    public static final String ID = "id";
+    public static final String ID = "_id";
     public static final String EVENT_NAME = "eventName";
     public static final String DATE = "date";
     public static final String START_TIME = "startTime";
@@ -27,11 +27,11 @@ public class DBAdapter {
     public static final String DATABASE_NAME = "EventsDB.db";
     public static final String DATABASE_TABLE = "events";
 
-    public static final int DATABASE_VERSION = 7;
+    public static final int DATABASE_VERSION = 9;
 
     public static final String DATABASE_CREATE = "create table if not exists " + DATABASE_TABLE + " (" +
             ID + " integer primary key autoincrement, " + EVENT_NAME + " VARCHAR not null, " + DATE +
-            " DATE not null, " + START_TIME + " VARCHAR not null, " + END_TIME + " VARCHAR not null, " +
+            " DATE not null, " + START_TIME + " integer not null, " + END_TIME + " integer not null, " +
             NOTES + " VARCHAR " + ");";
 
 
@@ -78,12 +78,15 @@ public class DBAdapter {
 
     public long insertRecord(String name, String date, String startTime, String endTime, String notes) {
 
+        startTime = startTime.replace(":","");
+        endTime = startTime.replace(":","");
+
 
         ContentValues initialValues = new ContentValues();
         initialValues.put(EVENT_NAME, name);
         initialValues.put(DATE, date);
-        initialValues.put(START_TIME, startTime);
-        initialValues.put(END_TIME, endTime);
+        initialValues.put(START_TIME, Integer.parseInt(startTime));
+        initialValues.put(END_TIME, Integer.parseInt(endTime));
         initialValues.put(NOTES, notes);
 
         return db.insert(DATABASE_TABLE, null, initialValues);
@@ -117,11 +120,14 @@ public class DBAdapter {
 
     public boolean updateRecord(long rowId, String eventName, String date, String startTime, String endTime, String notes) {
 
+        startTime = startTime.replace(":","");
+        endTime = startTime.replace(":","");
+
         ContentValues args = new ContentValues();
         args.put(EVENT_NAME, eventName);
         args.put(DATE, date);
-        args.put(START_TIME, startTime);
-        args.put(END_TIME, endTime);
+        args.put(START_TIME, Integer.parseInt(startTime));
+        args.put(END_TIME, Integer.parseInt(endTime));
         args.put(NOTES, notes);
         return db.update(DATABASE_TABLE, args, ID + "=" + rowId, null) > 0;
     }
