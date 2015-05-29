@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/event_height">
+    android:layout_height="wrap_content">
 
 
     <TextView
@@ -24,7 +24,9 @@
         android:layout_below="@+id/start_time"
         android:layout_alignTop="@+id/event_notes"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/start_time"
+        android:layout_alignEnd="@+id/start_time" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -36,10 +38,11 @@
         android:layout_centerHorizontal="true" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/event_notes_width"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Event Notes"
+        android:gravity="center"
         android:id="@+id/event_notes"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/event_name" />
