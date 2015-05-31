@@ -79,7 +79,7 @@ public class DBAdapter {
     public long insertRecord(String name, String date, String startTime, String endTime, String notes) {
 
         startTime = startTime.replace(":","");
-        endTime = startTime.replace(":","");
+        endTime = endTime.replace(":","");
 
 
         ContentValues initialValues = new ContentValues();
@@ -133,7 +133,7 @@ public class DBAdapter {
     }
 
     public Cursor getRecordsForDate(String date) throws SQLException {
-        return db.rawQuery("SELECT * FROM events WHERE date = '" + date + "';", null);
+        return db.rawQuery("SELECT * FROM events WHERE date = '" + date + "' ORDER BY '" + START_TIME + " ASC';", null);
     }
 
 
