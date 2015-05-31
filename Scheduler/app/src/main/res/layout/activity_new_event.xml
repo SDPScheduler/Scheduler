@@ -18,7 +18,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text=""
-        android:id="@+id/event_name" />
+        android:id="@+id/event_name"
+        android:clickable="true"
+        android:inputType="text" />
 
 
     <TextView
@@ -30,7 +32,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/date_picker"
-        android:focusable="false"/>
+        android:focusable="false"
+        android:inputType="date" />
 
     <TextView
         android:text="@string/start_time"
@@ -42,7 +45,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/start_timePicker"
-        android:focusable="false"/>
+        android:focusable="false"
+        android:inputType="time" />
 
     <TextView
         android:text="@string/end_time"
@@ -54,7 +58,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/end_timePicker"
-        android:focusable="false"/>
+        android:focusable="false"
+        android:inputType="time" />
 
     <TextView
         android:text="@string/notes"
@@ -64,7 +69,9 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:id="@+id/notes" />
+        android:id="@+id/notes"
+        android:clickable="true"
+        android:inputType="text" />
 
 
     <Button
