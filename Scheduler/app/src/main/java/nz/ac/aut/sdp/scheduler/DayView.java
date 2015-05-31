@@ -36,6 +36,8 @@ public class DayView extends ActionBarActivity {
     String date1;
     Calendar myCalendar = Calendar.getInstance();
     ListView listEvents;
+    Button nextButton;
+    Button prevButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,8 @@ public class DayView extends ActionBarActivity {
         setContentView(R.layout.activity_day_view);
 
         dateChange();
+        prevDate();
+        nextDate();
 
 
     }
@@ -123,35 +127,28 @@ public class DayView extends ActionBarActivity {
 
         db.close();
     }
-//    public ArrayList<Event>getEventsForDay(){
-//        db.open();
-//
-//        eventsToday = new ArrayList<Event>();
-//
-//        String date = currentDay.getText().toString();
-//        Cursor cursor = db.getRecordsForDate(date);
-//
-//        cursor.moveToFirst();
-//
-//        do {
-//            Event event = new Event();
-//            event.setId(Integer.parseInt(cursor.getString(0));
-//            event.setName(cursor.getString(1));
-//            event.setDate(cursor.getString(2));
-//            event.setStartTime(cursor.getString(3));
-//            event.setEndTime(cursor.getString(4));
-//            event.setNotes(cursor.getString(5));
-//
-//            //Adding Events to List
-//            eventsToday.add(event);
-//
-////            Toast.makeText(this, event.getName(), Toast.LENGTH_LONG ).show();
-//        } while (cursor.moveToNext());
-//
-//
-//
-//        return eventsToday;
-//    }
 
+    public void prevDate() {
+        prevButton = (Button) findViewById(R.id.prev_button);
+        prevButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myCalendar.add(myCalendar.DATE, -1);
+                updateDateLabel();
+                eventList();
+            }
+        });
+    }
+
+    public void nextDate() {
+        nextButton = (Button) findViewById(R.id.next_button);
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myCalendar.add(myCalendar.DATE, 1);
+                updateDateLabel();
+                eventList();
+            }
+        });
+    }
 }
-

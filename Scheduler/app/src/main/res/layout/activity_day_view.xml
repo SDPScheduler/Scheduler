@@ -15,13 +15,14 @@
         android:id="@+id/current_date"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:focusable="false" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/previous"
-        android:id="@+id/left_button"
+        android:id="@+id/prev_button"
         android:layout_alignTop="@+id/current_date"
         android:layout_alignBottom="@+id/current_date"
         android:layout_toLeftOf="@+id/current_date" />
@@ -30,7 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/next"
-        android:id="@+id/right_button"
+        android:id="@+id/next_button"
         android:layout_alignTop="@+id/current_date"
         android:layout_alignBottom="@+id/current_date"
         android:layout_toRightOf="@+id/current_date" />
@@ -39,6 +40,6 @@
         android:id="@+id/dayList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/left_button" />
+        android:layout_below="@+id/prev_button" />
 
 </RelativeLayout>
