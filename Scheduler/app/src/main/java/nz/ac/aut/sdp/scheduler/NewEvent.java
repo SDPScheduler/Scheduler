@@ -156,7 +156,7 @@ public class NewEvent extends ActionBarActivity {
 
             db.close();
 
-            Toast.makeText(NewEvent.this, ("Record " + id + " added."), Toast.LENGTH_LONG).show();
+            Toast.makeText(NewEvent.this, ("Event added."), Toast.LENGTH_LONG).show();
 
             // Reset the fields to empty
             name.setText("");

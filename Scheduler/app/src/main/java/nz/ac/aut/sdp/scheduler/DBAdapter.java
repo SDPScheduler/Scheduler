@@ -133,7 +133,7 @@ public class DBAdapter {
     }
 
     public Cursor getRecordsForDate(String date) throws SQLException {
-        return db.rawQuery("SELECT * FROM events WHERE date = '" + date + "' ORDER BY '" + START_TIME + " ASC';", null);
+        return db.rawQuery("SELECT * FROM events WHERE date = '" + date + "' ORDER BY " + START_TIME + ", "+ END_TIME +" ;", null);
     }
 
 
