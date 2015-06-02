@@ -2,6 +2,7 @@ package nz.ac.aut.sdp.scheduler;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -17,8 +18,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 
-public class NewEvent extends ActionBarActivity {
-
+public class EditEvent extends ActionBarActivity {
 
     DBAdapter db;
     EditText datePicker;
@@ -26,12 +26,17 @@ public class NewEvent extends ActionBarActivity {
     EditText endTimePicker;
     Calendar myCalendar = Calendar.getInstance();
     Date start;
-
+    long id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_event);
+        setContentView(R.layout.activity_edit_event);
+
+
+        Intent intent = getIntent();
+        id = intent.getLongExtra("ID", 0);
+
         db = new DBAdapter(this);
 
         datePicker = (EditText)findViewById(R.id.date_picker);
@@ -42,7 +47,7 @@ public class NewEvent extends ActionBarActivity {
 
             @Override
             public void onClick(View v) {
-                new DatePickerDialog(NewEvent.this, date, myCalendar
+                new DatePickerDialog(EditEvent.this, date, myCalendar
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             } // Show current date in date_picker.
@@ -59,7 +64,7 @@ public class NewEvent extends ActionBarActivity {
                 String format = "HH:mm";
                 final SimpleDateFormat sdf = new SimpleDateFormat(format);
                 TimePickerDialog timePicker;
-                timePicker = new TimePickerDialog(NewEvent.this, new TimePickerDialog.OnTimeSetListener() {
+                timePicker = new TimePickerDialog(EditEvent.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                         currentTime.set(hour, selectedHour);
@@ -84,7 +89,7 @@ public class NewEvent extends ActionBarActivity {
                 String format = "HH:mm";
                 final SimpleDateFormat sdf = new SimpleDateFormat(format);
                 TimePickerDialog timePicker;
-                timePicker = new TimePickerDialog(NewEvent.this, new TimePickerDialog.OnTimeSetListener() {
+                timePicker = new TimePickerDialog(EditEvent.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                         currentTime.set(hour, selectedHour);
@@ -93,7 +98,7 @@ public class NewEvent extends ActionBarActivity {
                         if (currentTime.getTime().after(start)) {
                             endTimePicker.setText(sdf.format(currentTime.getTime()));
                         } else
-                            Toast.makeText(NewEvent.this, ("Please choose a time after Start Time"), Toast.LENGTH_LONG).show();
+                            Toast.makeText(EditEvent.this, ("Please choose a time after Start Time"), Toast.LENGTH_LONG).show();
 
                     }
                 }, hour, minute, true);//Yes, 24 hour time
@@ -102,13 +107,12 @@ public class NewEvent extends ActionBarActivity {
 
             }
         });
-
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_new_event, menu);
+        getMenuInflater().inflate(R.menu.menu_edit_event, menu);
         return true;
     }
 
@@ -127,7 +131,7 @@ public class NewEvent extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void createNewEvent(View v){
+    public void saveEvent(View v){
 
         //Get the text fields
         EditText name = (EditText)findViewById(R.id.event_name);
@@ -150,21 +154,18 @@ public class NewEvent extends ActionBarActivity {
 
             db.open();
 
-            long id = db.insertRecord(nameString, dateString, startTimeInt, endTimeInt, notesString);
+            boolean success = db.updateRecord(id, nameString, dateString, startTimeInt, endTimeInt, notesString);
 
             db.close();
 
-            Toast.makeText(NewEvent.this, ("Event added."), Toast.LENGTH_LONG).show();
-
-            // Reset the fields to empty
-            name.setText("");
-            date.setText("");
-            startTime.setText("");
-            endTime.setText("");
-            notes.setText("");
+            if (success) {
+                Toast.makeText(EditEvent.this, ("Event added."), Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(EditEvent.this, ("Error saving event."), Toast.LENGTH_LONG).show();
+            }
         } else {
 
-            Toast.makeText(NewEvent.this, ("Please fill in required fields."), Toast.LENGTH_LONG).show();
+            Toast.makeText(EditEvent.this, ("Please fill in required fields."), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -189,6 +190,4 @@ public class NewEvent extends ActionBarActivity {
 
         datePicker.setText(sdf.format(myCalendar.getTime()));
     }
-
-
 }

@@ -20,4 +20,6 @@
     <string name="next">Next</string>
     <string name="current_month">Current Month</string>
     <string name="current_date">Current Date</string>
+    <string name="title_activity_edit_event">Edit Event</string>
+    <string name="save">Save</string>
 </resources>

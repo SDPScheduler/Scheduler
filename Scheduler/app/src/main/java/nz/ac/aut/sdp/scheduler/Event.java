@@ -5,7 +5,8 @@ package nz.ac.aut.sdp.scheduler;
  */
 public class Event {
 
-    private String name, date, notes, startTime, endTime;
+    private String name, date, notes;
+    private int startTime, endTime;
 
     private int id;
 
@@ -13,7 +14,7 @@ public class Event {
 
     }
 
-    public Event(int id, String name, String date, String startTime, String endTime, String notes) {
+    public Event(int id, String name, String date, int startTime, int endTime, String notes) {
         this.id = id;
         this.name = name;
         this.date = date;
@@ -54,19 +55,19 @@ public class Event {
         this.notes = notes;
     }
 
-    public String getStartTime() {
+    public int getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(String startTime) {
+    public void setStartTime(int startTime) {
         this.startTime = startTime;
     }
 
-    public String getEndTime() {
+    public int getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(String endTime) {
+    public void setEndTime(int endTime) {
         this.endTime = endTime;
     }
 

@@ -1,6 +1,8 @@
 package nz.ac.aut.sdp.scheduler;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -8,6 +10,7 @@ import android.text.method.DateTimeKeyListener;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -119,11 +122,41 @@ public class DayView extends ActionBarActivity {
         db.open();
         String date = currentDay.getText().toString();
         Cursor cursor = db.getRecordsForDate(date);
-        String[] fromFieldNames = new String[]{DBAdapter.EVENT_NAME, DBAdapter.START_TIME, DBAdapter.END_TIME, DBAdapter.NOTES};
-        int[] toViewIDs = new int[]{R.id.event_name, R.id.start_time, R.id.end_time, R.id.event_notes};
-        SimpleCursorAdapter myCursorAdapter = new SimpleCursorAdapter(this, R.layout.day_events, cursor, fromFieldNames, toViewIDs, 0);
+        cursor.moveToFirst();
+        ArrayList<Event> events = new ArrayList<Event>();
+        while(!cursor.isAfterLast()) {
+            events.add(new Event(
+                    cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getInt(3), cursor.getInt(4), cursor.getString(5)));
+            cursor.moveToNext();
+        }
+        cursor.close();
+
+        EventAdapter arrayAdapter = new EventAdapter(this, events);
+
+
+        //String[] fromFieldNames = new String[]{DBAdapter.EVENT_NAME, DBAdapter.START_TIME, DBAdapter.END_TIME, DBAdapter.NOTES};
+        //int[] toViewIDs = new int[]{R.id.event_name, R.id.start_time, R.id.end_time, R.id.event_notes};
+        //SimpleCursorAdapter myCursorAdapter = new SimpleCursorAdapter(this, R.layout.day_events, cursor, fromFieldNames, toViewIDs, 0);
         listEvents = (ListView) findViewById(R.id.dayList);
-        listEvents.setAdapter(myCursorAdapter);
+        listEvents.setAdapter(arrayAdapter);
+        //listEvents.setAdapter(myCursorAdapter);
+
+        listEvents.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+
+            @Override
+            public void onItemClick(AdapterView<?>adapter,View v, int position, long something){
+
+                Event event = (Event) adapter.getItemAtPosition(position);
+
+
+                Intent intent = new Intent(DayView.this,EditEvent.class);
+                intent.putExtra("ID", event.getId());
+                startActivity(intent);
+
+            }
+
+
+        });
 
         db.close();
     }

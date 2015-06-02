@@ -48,6 +48,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="nz.ac.aut.sdp.scheduler.MainActivity" />
         </activity>
+        <activity
+            android:name=".EditEvent"
+            android:label="@string/title_activity_edit_event" >
+        </activity>
     </application>
 
 </manifest>
