@@ -89,12 +89,15 @@ public class NewEvent extends ActionBarActivity {
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                         currentTime.set(hour, selectedHour);
                         currentTime.set(minute, selectedMinute);
-                        //validate that end time is higher than start time
-                        if (currentTime.getTime().after(start)) {
-                            endTimePicker.setText(sdf.format(currentTime.getTime()));
+                        //validate that start time is not empty
+                        if (start != null) {
+                            //validate that end time is higher than start time
+                            if (currentTime.getTime().after(start)) {
+                                endTimePicker.setText(sdf.format(currentTime.getTime()));
+                            } else
+                                Toast.makeText(NewEvent.this, ("Please choose a time after Start Time"), Toast.LENGTH_LONG).show();
                         } else
-                            Toast.makeText(NewEvent.this, ("Please choose a time after Start Time"), Toast.LENGTH_LONG).show();
-
+                            Toast.makeText(NewEvent.this, ("Please choose your Start Time before End Time"), Toast.LENGTH_LONG).show();
                     }
                 }, hour, minute, true);//Yes, 24 hour time
                 timePicker.setTitle("Select Time");
@@ -102,6 +105,7 @@ public class NewEvent extends ActionBarActivity {
 
             }
         });
+
 
     }
 
