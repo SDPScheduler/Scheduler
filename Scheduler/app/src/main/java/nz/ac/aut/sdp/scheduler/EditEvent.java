@@ -3,6 +3,7 @@ package nz.ac.aut.sdp.scheduler;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -21,12 +22,10 @@ import java.util.Date;
 public class EditEvent extends ActionBarActivity {
 
     DBAdapter db;
-    EditText datePicker;
-    EditText startTimePicker;
-    EditText endTimePicker;
+    EditText name, datePicker, startTimePicker, endTimePicker, notes;
     Calendar myCalendar = Calendar.getInstance();
     Date start;
-    long id;
+    int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,13 +34,35 @@ public class EditEvent extends ActionBarActivity {
 
 
         Intent intent = getIntent();
-        id = intent.getLongExtra("ID", 0);
+        id = intent.getIntExtra("ID", 1);
+
 
         db = new DBAdapter(this);
 
+
+        db.open();
+        Cursor cursor = db.getRecord(id);
+        db.close();
+
+        cursor.moveToFirst();
+        Event event = new Event(cursor.getInt(0), cursor.getString(1), cursor.getString(2),
+                        cursor.getInt(3), cursor.getInt(4), cursor.getString(5));
+
+
+        name = (EditText)findViewById(R.id.event_name);
         datePicker = (EditText)findViewById(R.id.date_picker);
         startTimePicker = (EditText)findViewById(R.id.start_timePicker);
         endTimePicker = (EditText)findViewById(R.id.end_timePicker);
+        notes = (EditText)findViewById(R.id.notes);
+
+        name.setText(event.getName());
+        datePicker.setText(String.valueOf(event.getDate()));
+        startTimePicker.setText(String.valueOf(event.getStartTime()));
+        endTimePicker.setText(String.valueOf(event.getEndTime()));
+
+        if (!event.getNotes().equals(null)) {
+            notes.setText(String.valueOf(event.getNotes()));
+        }
 
         datePicker.setOnClickListener(new View.OnClickListener() {
 

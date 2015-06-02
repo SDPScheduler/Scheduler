@@ -41,17 +41,28 @@ public class DayView extends ActionBarActivity {
     ListView listEvents;
     Button nextButton;
     Button prevButton;
+    EventAdapter arrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_day_view);
 
+        db = new DBAdapter(this);
+
         dateChange();
         prevDate();
         nextDate();
 
 
+    }
+
+    @Override
+    public void onRestart(){
+        super.onRestart();
+        // Refreshes the arraylist data when returning via the back button.
+        arrayAdapter = new EventAdapter(this, getEvents());
+        listEvents.setAdapter(arrayAdapter);
     }
 
     @Override
@@ -118,20 +129,10 @@ public class DayView extends ActionBarActivity {
     }
 
     public void eventList() {
-        db = new DBAdapter(this);
-        db.open();
-        String date = currentDay.getText().toString();
-        Cursor cursor = db.getRecordsForDate(date);
-        cursor.moveToFirst();
-        ArrayList<Event> events = new ArrayList<Event>();
-        while(!cursor.isAfterLast()) {
-            events.add(new Event(
-                    cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getInt(3), cursor.getInt(4), cursor.getString(5)));
-            cursor.moveToNext();
-        }
-        cursor.close();
 
-        EventAdapter arrayAdapter = new EventAdapter(this, events);
+        ArrayList<Event> events = getEvents();
+
+        arrayAdapter = new EventAdapter(this, events);
 
 
         //String[] fromFieldNames = new String[]{DBAdapter.EVENT_NAME, DBAdapter.START_TIME, DBAdapter.END_TIME, DBAdapter.NOTES};
@@ -159,6 +160,23 @@ public class DayView extends ActionBarActivity {
         });
 
         db.close();
+    }
+
+    private ArrayList<Event> getEvents() {
+        String date = currentDay.getText().toString();
+        db.open();
+        Cursor cursor = db.getRecordsForDate(date);
+
+        cursor.moveToFirst();
+        ArrayList<Event> events = new ArrayList<Event>();
+        while(!cursor.isAfterLast()) {
+            events.add(new Event(
+                    cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getInt(3), cursor.getInt(4), cursor.getString(5)));
+            cursor.moveToNext();
+        }
+        cursor.close();
+        db.close();
+        return events;
     }
 
     public void prevDate() {
