@@ -1,12 +1,70 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
     tools:context="nz.ac.aut.sdp.scheduler.WeekView">
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <ExpandableListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/expWeekView"
+        android:layout_below="@+id/prev_week_button" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/previous"
+        android:id="@+id/prev_week_button"
+        android:layout_alignTop="@+id/start_week"
+        android:layout_alignBottom="@+id/start_week"
+        android:layout_toLeftOf="@+id/start_week"
+        android:layout_toStartOf="@+id/start_week" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/next"
+        android:id="@+id/next_week_button"
+        android:layout_alignTop="@+id/end_week"
+        android:layout_alignBottom="@+id/end_week"
+        android:layout_toRightOf="@+id/end_week"
+        android:layout_toEndOf="@+id/end_week"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:text="-"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/dash_sign" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/current_date"
+        android:id="@+id/start_week"
+        android:layout_alignTop="@+id/dash_sign"
+        android:layout_toStartOf="@+id/dash_sign"
+        android:layout_toLeftOf="@+id/dash_sign"
+        android:focusable="false"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/current_date"
+        android:id="@+id/end_week"
+        android:layout_alignTop="@+id/dash_sign"
+        android:layout_toRightOf="@+id/dash_sign"
+        android:layout_toEndOf="@+id/dash_sign"
+        android:clickable="false" />
+
 
 </RelativeLayout>

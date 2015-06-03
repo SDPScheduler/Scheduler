@@ -17,7 +17,7 @@ import java.util.List;
 
 public class DayView extends ActionBarActivity {
 
-    List<Event> events;
+    ArrayList<Event> events;
     DBAdapter db;
 
     @Override
