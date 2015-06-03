@@ -14,4 +14,12 @@
     <string name="title_activity_day_view">DayView</string>
     <string name="title_activity_week_view">WeekView</string>
     <string name="title_activity_month_view">MonthView</string>
+    <string name="week_view">Week View</string>
+    <string name="day_view">Day View</string>
+    <string name="previous">Prev</string>
+    <string name="next">Next</string>
+    <string name="current_month">Current Month</string>
+    <string name="current_date">Current Date</string>
+    <string name="title_activity_edit_event">Edit Event</string>
+    <string name="save">Save</string>
 </resources>

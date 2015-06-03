@@ -6,12 +6,18 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by jack on 15/05/15.
  */
 public class DBAdapter {
-    public static final String ID = "id";
+    public static final String ID = "_id";
     public static final String EVENT_NAME = "eventName";
     public static final String DATE = "date";
     public static final String START_TIME = "startTime";
@@ -21,11 +27,11 @@ public class DBAdapter {
     public static final String DATABASE_NAME = "EventsDB.db";
     public static final String DATABASE_TABLE = "events";
 
-    public static final int DATABASE_VERSION = 6;
+    public static final int DATABASE_VERSION = 10;
 
     public static final String DATABASE_CREATE = "create table if not exists " + DATABASE_TABLE + " (" +
             ID + " integer primary key autoincrement, " + EVENT_NAME + " VARCHAR not null, " + DATE +
-            " VARCHAR not null, " + START_TIME + " integer not null, " + END_TIME + " integer not null, " +
+            " DATE not null, " + START_TIME + " TIME not null, " + END_TIME + " TIME not null, " +
             NOTES + " VARCHAR " + ");";
 
 
@@ -70,7 +76,8 @@ public class DBAdapter {
         DBHelper.close();
     }
 
-    public long insertRecord(String name, String date, int startTime, int endTime, String notes) {
+    public long insertRecord(String name, String date, String startTime, String endTime, String notes) {
+
         ContentValues initialValues = new ContentValues();
         initialValues.put(EVENT_NAME, name);
         initialValues.put(DATE, date);
@@ -107,7 +114,8 @@ public class DBAdapter {
     }
 
 
-    public boolean updateRecord(long rowId, String eventName, String date, int startTime, int endTime, String notes) {
+    public boolean updateRecord(long rowId, String eventName, String date, String startTime, String endTime, String notes) {
+
         ContentValues args = new ContentValues();
         args.put(EVENT_NAME, eventName);
         args.put(DATE, date);
@@ -117,13 +125,10 @@ public class DBAdapter {
         return db.update(DATABASE_TABLE, args, ID + "=" + rowId, null) > 0;
     }
 
-    public Cursor getRecordsForDate(String date){
-
-        Cursor cursor = db.query(true, DATABASE_TABLE, new String[]{ID, EVENT_NAME, DATE, START_TIME, END_TIME, NOTES },
-                null, null, DATE + "=" + date, null, null, null, null);
-
-        return cursor;
+    public Cursor getRecordsForDate(String date) throws SQLException {
+        return db.rawQuery("SELECT * FROM events WHERE date = '" + date + "' ORDER BY " + START_TIME + ", "+ END_TIME +" ;", null);
     }
+
 
 }
 

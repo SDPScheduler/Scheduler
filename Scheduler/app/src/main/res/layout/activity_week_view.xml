@@ -64,7 +64,8 @@
         android:layout_alignTop="@+id/dash_sign"
         android:layout_toRightOf="@+id/dash_sign"
         android:layout_toEndOf="@+id/dash_sign"
-        android:clickable="false" />
+        android:focusable="false"
+        android:editable="false"/>
 
 
 </RelativeLayout>
