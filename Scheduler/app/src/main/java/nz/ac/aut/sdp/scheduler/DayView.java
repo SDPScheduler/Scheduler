@@ -171,7 +171,7 @@ public class DayView extends ActionBarActivity {
         ArrayList<Event> events = new ArrayList<Event>();
         while(!cursor.isAfterLast()) {
             events.add(new Event(
-                    cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getInt(3), cursor.getInt(4), cursor.getString(5)));
+                    cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5)));
             cursor.moveToNext();
         }
         cursor.close();
