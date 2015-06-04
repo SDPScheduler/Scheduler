@@ -2,9 +2,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="nz.ac.aut.sdp.scheduler.NewEvent">
-    <item
-        android:id="@+id/action_settings"
-        android:title="@string/action_settings"
-        android:orderInCategory="100"
-        app:showAsAction="never" />
+    <item android:id="@+id/day_view" android:title="@string/day_view"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/week_view" android:title="@string/week_view"
+        android:orderInCategory="100" app:showAsAction="never" />
 </menu>

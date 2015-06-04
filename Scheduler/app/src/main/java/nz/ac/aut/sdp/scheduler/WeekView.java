@@ -1,6 +1,7 @@
 package nz.ac.aut.sdp.scheduler;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.DataSetObserver;
 import android.support.v7.app.ActionBarActivity;
@@ -70,8 +71,12 @@ public class WeekView extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.new_event) {
+            Intent intent = new Intent(this, NewEvent.class);
+            startActivity(intent);
+        } else if (id == R.id.day_view) {
+            Intent intent = new Intent(this, DayView.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
@@ -112,7 +117,7 @@ public class WeekView extends ActionBarActivity {
 
     };
 
-    public void prevWeek(){
+    public void prevWeek() {
         prevButton = (Button) findViewById(R.id.prev_week_button);
         prevButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,7 +129,7 @@ public class WeekView extends ActionBarActivity {
         });
     }
 
-    public void nextWeek(){
+    public void nextWeek() {
         prevButton = (Button) findViewById(R.id.next_week_button);
         prevButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,13 +149,14 @@ public class WeekView extends ActionBarActivity {
         endWeek.setText(sdf.format(addDays(myCalendar.getTime(), 6)));
     }
 
-    public Date addDays(Date date, int days){
+    public Date addDays(Date date, int days) {
         myCalendar1.setTime(date);
         myCalendar1.add(Calendar.DATE, days);
         return myCalendar1.getTime();
 
     }
-    public void getDays(Date startWeek){
+
+    public void getDays(Date startWeek) {
         final String NAME = "NAME";
         final String DATE = "DATE";
         final String START_TIME = "START_TIME";
@@ -168,14 +174,13 @@ public class WeekView extends ActionBarActivity {
         int[] toViewIDs = new int[]{R.id.event_name, R.id.start_time, R.id.end_time, R.id.event_notes};
 
 
-
         List<Map<String, String>> groupData = new ArrayList<Map<String, String>>();
         List<List<Map<String, String>>> childData = new ArrayList<List<Map<String, String>>>();
         Map<String, String> curGroupMap;
 
         db.open();
 
-        for(int i = 0; i < 7; i++) {
+        for (int i = 0; i < 7; i++) {
             String date = sdf.format(addDays(startWeek, i));
             Cursor cursor = db.getRecordsForDate(date);
 
@@ -183,7 +188,7 @@ public class WeekView extends ActionBarActivity {
             groupData.add(curGroupMap);
             curGroupMap.put(NAME, sdf1.format(addDays(startWeek, i)));
             List<Map<String, String>> children = new ArrayList<Map<String, String>>();
-            for(cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+            for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
                 Map<String, String> curChildMap = new HashMap<String, String>();
                 children.add(curChildMap);
                 curChildMap.put(NAME, String.valueOf(cursor.getString(1)));
@@ -196,9 +201,8 @@ public class WeekView extends ActionBarActivity {
         }
 
 
-
         expDays = (ExpandableListView) findViewById(R.id.expWeekView);
-        ExpandableListAdapter adapter = new SimpleExpandableListAdapter(this, groupData, R.layout.days_in_week, new String[]{NAME}, new int[]{R.id.days_of_week}, childData, R.layout.day_events, new String[]{NAME, START_TIME, END_TIME, NOTES},toViewIDs);
+        ExpandableListAdapter adapter = new SimpleExpandableListAdapter(this, groupData, R.layout.days_in_week, new String[]{NAME}, new int[]{R.id.days_of_week}, childData, R.layout.day_events, new String[]{NAME, START_TIME, END_TIME, NOTES}, toViewIDs);
         expDays.setAdapter(adapter);
         db.close();
     }
@@ -217,6 +221,7 @@ public class WeekView extends ActionBarActivity {
 
         db.close();
     }
+
     private ArrayList<Event> getEvents() {
         String date = "";
         db.open();
@@ -224,7 +229,7 @@ public class WeekView extends ActionBarActivity {
 
         cursor.moveToFirst();
         ArrayList<Event> events = new ArrayList<Event>();
-        while(!cursor.isAfterLast()) {
+        while (!cursor.isAfterLast()) {
             events.add(new Event(
                     cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5)));
             cursor.moveToNext();

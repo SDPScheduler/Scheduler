@@ -80,8 +80,12 @@ public class DayView extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.new_event) {
+            Intent intent = new Intent(this, NewEvent.class);
+            startActivity(intent);
+        } else if (id == R.id.week_view){
+            Intent intent = new Intent(this, WeekView.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);

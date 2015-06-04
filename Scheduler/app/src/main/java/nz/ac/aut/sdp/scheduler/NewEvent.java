@@ -2,6 +2,7 @@ package nz.ac.aut.sdp.scheduler;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -124,8 +125,12 @@ public class NewEvent extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.day_view) {
+            Intent intent = new Intent(this, DayView.class);
+            startActivity(intent);
+        } else if (id == R.id.week_view){
+            Intent intent = new Intent(this, WeekView.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
