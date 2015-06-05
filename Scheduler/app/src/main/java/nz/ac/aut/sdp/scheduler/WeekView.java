@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -157,6 +158,7 @@ public class WeekView extends ActionBarActivity {
     }
 
     public void getDays(Date startWeek) {
+        final String EVENT_ID = "EVENT_ID";
         final String NAME = "NAME";
         final String DATE = "DATE";
         final String START_TIME = "START_TIME";
@@ -171,13 +173,14 @@ public class WeekView extends ActionBarActivity {
         SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
         SimpleDateFormat sdf1 = new SimpleDateFormat(dateFormat1);
         String[] fromFieldNames = new String[]{DBAdapter.EVENT_NAME, DBAdapter.START_TIME, DBAdapter.END_TIME, DBAdapter.NOTES};
-        int[] toViewIDs = new int[]{R.id.event_name, R.id.start_time, R.id.end_time, R.id.event_notes};
+        int[] toViewIDs = new int[]{R.id.event_id, R.id.event_name, R.id.start_time, R.id.end_time, R.id.event_notes};
 
 
-        List<Map<String, String>> groupData = new ArrayList<Map<String, String>>();
-        List<List<Map<String, String>>> childData = new ArrayList<List<Map<String, String>>>();
+        final List<Map<String, String>> groupData = new ArrayList<Map<String, String>>();
+        final List<List<Map<String, String>>> childData = new ArrayList<List<Map<String, String>>>();
         Map<String, String> curGroupMap;
-
+//        final ArrayList<ArrayList<Event>> event = new ArrayList<>();
+//        final ArrayList<Event> events = new ArrayList<>();
         db.open();
 
         for (int i = 0; i < 7; i++) {
@@ -187,27 +190,47 @@ public class WeekView extends ActionBarActivity {
             curGroupMap = new HashMap<String, String>();
             groupData.add(curGroupMap);
             curGroupMap.put(NAME, sdf1.format(addDays(startWeek, i)));
-            List<Map<String, String>> children = new ArrayList<Map<String, String>>();
+            ArrayList<Map<String, String>> children = new ArrayList<Map<String, String>>();
+
+
             for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
                 Map<String, String> curChildMap = new HashMap<String, String>();
                 children.add(curChildMap);
+                curChildMap.put(EVENT_ID, String.valueOf(cursor.getInt(0)));
                 curChildMap.put(NAME, String.valueOf(cursor.getString(1)));
                 curChildMap.put(START_TIME, String.valueOf(cursor.getString(3)));
                 curChildMap.put(END_TIME, String.valueOf(cursor.getString(4)));
                 curChildMap.put(NOTES, String.valueOf(cursor.getString(5)));
+//                events.add(new Event(
+//                        cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5)));
             }
+//            event.add(events);
             childData.add(children);
             cursor.close();
         }
 
 
         expDays = (ExpandableListView) findViewById(R.id.expWeekView);
-        ExpandableListAdapter adapter = new SimpleExpandableListAdapter(this, groupData, R.layout.days_in_week, new String[]{NAME}, new int[]{R.id.days_of_week}, childData, R.layout.day_events, new String[]{NAME, START_TIME, END_TIME, NOTES}, toViewIDs);
+        final ExpandableListAdapter adapter = new SimpleExpandableListAdapter(this, groupData, R.layout.days_in_week, new String[]{NAME}, new int[]{R.id.days_of_week}, childData, R.layout.day_events, new String[]{EVENT_ID, NAME, START_TIME, END_TIME, NOTES}, toViewIDs);
         expDays.setAdapter(adapter);
+
+
+        expDays.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+
+                HashMap<String, String> stringID = (HashMap<String, String>) adapter.getChild(groupPosition, childPosition);
+                int eventID = Integer.parseInt(stringID.get(EVENT_ID));
+                Intent intent = new Intent(WeekView.this, EditEvent.class);
+                intent.putExtra("ID", eventID);
+
+                startActivity(intent);
+                return false;
+            }
+        });
+
         db.close();
     }
-
-
     public void eventList() {
         db = new DBAdapter(this);
         db.open();

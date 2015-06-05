@@ -47,4 +47,14 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/event_name" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Event Id"
+        android:id="@+id/event_id"
+        android:layout_toRightOf="@+id/event_name"
+        android:layout_toEndOf="@+id/event_name"
+        android:visibility="invisible" />
+
 </RelativeLayout>
